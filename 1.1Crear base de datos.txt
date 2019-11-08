@@ -1,0 +1,24 @@
+Primero tenemos que levantar el servidor de mongodb para asi poder utilizarlo
+con el robo3t. Dentro de robo3t crear una maquina asignandole el puerto que 
+nos da el servidor de mongd
+
+Despues en robo3t Creamos una base de datos llamada cafe, a la cual le 
+creamos una coleccion para usuarios.
+
+Despues iniciamos el proyecto de node, en una carpeta ejecutamos:
+npm init , agregamos los datos, despues instalamos express para el servidor
+
+npm install express --save
+
+
+
+
+
+
+
+
+
+
+
+
+
