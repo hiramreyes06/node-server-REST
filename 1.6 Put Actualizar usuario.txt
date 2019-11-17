@@ -1,0 +1,41 @@
+Primero para poder bloquear propiedades de actualizacion con PUTS,en el
+proyecto instalamos:
+
+npm install underscore --save
+
+Ahora en el .js de rutas , como routes/usuario.js creamos el objeto
+
+const _= require('underscore');
+
+Y en el metodo put, modificamos el body
+
+app.put('/usuario/:id', function (req, res) {
+
+    txt='data cualquiera dog'
+    let id= req.params.id;
+
+    //Para especificar que proopiedades SI pueden modificarse con put
+    let body= _.pick( req.body, ['nombre','email','img','role','estado']);
+
+    Usuario.findByIdAndUpdate(id, body, { new : true }, (err, usuarioDB ) =>{
+
+        if(err){
+            return res.status(400).json({
+                 ok: false,
+                 err
+             });
+         }
+
+
+
+         //Esto es lo que retornara usando la api 
+    res.json({
+        ok:true,
+       usuario: usuarioDB,
+        txt
+    });
+
+
+    });
+
+Y ya

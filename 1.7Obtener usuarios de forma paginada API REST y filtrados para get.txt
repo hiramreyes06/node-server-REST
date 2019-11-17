@@ -1,0 +1,129 @@
+*******Para obtenerlos de forma paginada
+
+//ASi podemos retornar cierta cantidad de objetos de la Base de datos desde/
+//Cierto numero de objeto, desde el http get
+//http://localhost:3000/usuario?limite=3&desde=0
+app.get('/usuario', function (req, res) {
+
+    //Asi definimos en que numero de objeto empezar
+    let desde= req.query.desde || 0;
+    desde= Number(desde);
+
+    //Asi definimos la cantidad de objetos a regresar en base al desde
+    let limite= req.query.limite || 5;
+    limite = Number(limite);
+
+   //Asi para buscar en TOOS los documentos de la condicion 
+    //En el segundo parametro se especifica que propiedades va a mostrar la busqueda
+    Usuario.find({},'nombre email role estado google img' )
+    //Metodo para saltar objetos
+    .skip(desde)
+    //Metodo para obtener la cantidad definida de objetos
+    .limit(limite)
+    .exec( (err, usuarios) =>{
+
+        if(err){
+            return res.status(400).json({
+                 ok: false,
+                 err
+             });
+         }
+
+         //ASi retornamos la respuesta para la api
+         res.json({
+             ok:true,
+             usuarios
+         });
+
+    });
+});
+
+
+
+***Para obtener TODOS los elementos o objetos de la api , en el js de la ruta,
+como, routes/usuario.js, modificamos la peticion get sin el .lmit(), Y para obtener
+cierto numero de objetos de mas viejos a mas recientes con el .limit
+
+app.get('/usuario', function (req, res) {
+
+    Usuario.find({})
+.limit(5),
+    .exec( (err, usuarios) =>{
+
+        if(err){
+            return res.status(400).json({
+                 ok: false,
+                 err
+             });
+         }
+
+         res.json({
+             ok:true,
+             usuarios
+         });
+
+    });
+});
+
+
+****Para obtener el numero de documentos o objetos que hay en una coleccion
+de la base de datos
+
+.exec( (err, usuarios) =>{
+
+        if(err){
+            return res.status(400).json({
+                 ok: false,
+                 err
+             });
+         }
+
+         //De esta forma contamos los documentos que tiene una coleccion en mongoose
+        Usuario.countDocuments({} , (err, cantidad) =>{
+
+            //ASi retornamos la respuesta para la api
+            res.json({
+                ok:true,
+                usuarios,
+                cantidad
+            });
+
+        });
+
+    });
+
+
+********Para poder flitrar alguna busqueda en base a una propiedad 
+Tenemos que agregar la propiedad  como criterio para el filtro
+
+//Asi se agrega el criterio
+Usuario.find({ google:true } )
+    //Metodo para saltar objetos
+    .skip(desde)
+    //Metodo para obtener la cantidad definida de objetos
+    .limit(limite)
+    .exec( (err, usuarios) =>{
+
+        if(err){
+            return res.status(400).json({
+                 ok: false,
+                 err
+             });
+         }
+
+//De esta forma contamos los documentos que tiene una coleccion en mongoose
+//Con condicion o criterio establecido         
+Usuario.countDocuments({ google:true }, (err, cantidad) =>{
+
+            //ASi retornamos la respuesta para la api
+            res.json({
+                ok:true,
+                usuarios,
+                cantidad
+            });
+
+        });
+
+
+
+

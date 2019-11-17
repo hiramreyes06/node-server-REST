@@ -1,0 +1,44 @@
+Para eso nos vamos al js de la rutas, del objeto que queramos mandar
+y importamos el schema para mongoose
+
+const Usuario = require('../models/usuario');
+
+Despues en el metodo post, le creamos un objeto del eschema que queremos,
+añadiendo las propiedades que tendra req
+
+app.post('/usuario', function (req, res) {
+
+let body= req.body;
+
+//Asi creamnos un objeto con esas propiedades y campos para mongoose
+let usuario= new Usuario({
+nombre: body.nombre,
+email: body.email,
+password: body.password,
+role: body.role
+});
+
+
+//PARA GUARDAR EN LA BASE DE DATOS
+//Asi capturamos un error
+usuario.save( ( err, usuariosDB) => {
+    if(err){
+//Retorna el protocolo de valores http
+       return res.status(400).json({
+            ok: false,
+            err
+        });
+    }
+
+    //Asi retornamos el usuario creado correctamente
+    res.json({
+        ok:true,
+        usuario: usuariosDB
+    });
+
+});
+
+
+
+
+});

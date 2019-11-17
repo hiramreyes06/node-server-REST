@@ -1,0 +1,96 @@
+Para eso nos vamos al js de la rutas, del objeto que queramos mandar
+y importamos el schema para mongoose
+
+const Usuario = require('../models/usuario');
+
+Despues en el metodo post, le creamos un objeto del eschema que queremos,
+añadiendo las propiedades que tendra req
+
+app.post('/usuario', function (req, res) {
+
+let body= req.body;
+
+//Asi creamnos un objeto con esas propiedades y campos para mongoose
+let usuario= new Usuario({
+nombre: body.nombre,
+email: body.email,
+password: body.password,
+role: body.role
+});
+
+
+//PARA GUARDAR EN LA BASE DE DATOS
+//Asi capturamos un error
+usuario.save( ( err, usuariosDB) => {
+    if(err){
+//Retorna el protocolo de valores http
+       return res.status(400).json({
+            ok: false,
+            err
+        });
+    }
+
+    //Asi retornamos el usuario creado correctamente
+    res.json({
+        ok:true,
+        usuario: usuariosDB
+    });
+
+});
+
+});
+
+
+****Para validar que alguna propiedad no se repita en la base de datos como el
+email
+
+en el proyecto instalamos
+
+npm i mongoose-unique-validator --save
+
+Despues lo importamos al modelo schema .js, 
+
+const uniqueValidator= require('mongoose-unique-validator');
+
+Y en la propiedad del schema le agregamos el unique: true
+
+email:{
+        type: String,
+        //Asi para que la propiedad sea unica en la base de datos
+        unique:true,
+        required:[true,' El correo es necesario'],
+
+    },
+
+Despues asi le añadimos el plugin al schema, con su respectivo mensaje
+de error
+
+usuarioSchema.plugin( uniqueValidator, {message:'{PATH} debe de ser unico'});
+
+***Ahora para crear una enumeracion  de opciones para las propiedades
+en la propiedad del schema 
+
+//Asi creamos opciones con valores definidos para alguna propiedad 
+let rolesValidos ={
+    values:['ADMIN_ROLE','USER_ROLE'],
+    message:'{VALUE} no es un rol valido'
+};
+
+y despues en la propiedad del schema le agreamos el enum
+
+role:{
+        //Asi asgnamos un valor por defecto
+        type:String,
+        default: 'USER_ROLE',
+        //ASi se agregan las opciones definidas
+        enum: rolesValidos
+    },
+
+
+
+
+
+
+
+
+

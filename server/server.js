@@ -1,6 +1,10 @@
 require('./config/config');
 
 const express = require('express');
+
+//Coneccion a base de datos mongoose
+const mongoose = require('mongoose');
+
 const app = express();
 const bodyParser = require('body-parser')
 
@@ -13,52 +17,23 @@ const bodyParser = require('body-parser')
 app.use(bodyParser.urlencoded({ extended: false }))
  
 // parse application/json
-app.use(bodyParser.json())
+app.use(bodyParser.json());
 
-app.get('/usuario', function (req, res) {
-    res.json('Get usuario');
+//De esta forma usamos las rutas que tenga el archivo usuario.js
+app.use(require('./routes/usuario' ) );
 
-});
+//Conectar a base de datos ATLAS o al localhost automaticamente
+//Warnings evitados por los objetos
+mongoose.connect(process.env.URLDB, {
+    useNewUrlParser: true,
+    useUnifiedTopology: true,
+    useCreateIndex: true,
+    useFindAndModify: false
+}, (err, res) =>{
 
-app.post('/usuario', function (req, res) {
-
-let body= req.body;
-
-//De esta forma , retornamos algun error atrapado
-if(body.nombre === undefined ){
-    //Existen varios codigos de respuestas http ya establecidos
-    res.status(400).json({
-        ok:false,
-        mensaje:'El nombre es necesario'
-    });
-}else{
-
-    //Retorna lo que viene en el payload
-    res.json({
-        estructura:body
-    });
-
-}
-
-
-
-});
-
-app.put('/usuario/:id', function (req, res) {
-
-    txt='data cualquiera dog'
-    let id= req.params.id;
-
-    //Esto es lo que retorara usando la api 
-    res.json({
-        id,
-        txt
-    });
-
-});
-
-app.delete('/usuario', function (req, res) {
-    res.json('Delete usuario');
+    if (err) throw err;
+    
+    console.log('Base de datos ONLINE');
 
 });
 

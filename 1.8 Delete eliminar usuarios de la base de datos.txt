@@ -1,0 +1,69 @@
+Para eliminar un documento fisicamente de la base de datos, que no se
+acostumbra a hacerlo:
+
+//Asi borramos el registro fisicamente de la base de datos
+    Usuario.findByIdAndRemove(id, (err, usuarioBorrado) =>{
+
+        if(err){
+            return res.status(400).json({
+                 ok: false,
+                 err
+             });
+         }
+
+         //Para verificar si existe el usuario
+         if(!usuarioBorrado){
+            return res.status(400).json({
+                 ok: false,
+                 err :{
+                     message: 'Usuario no encontrado'
+                 }
+             });
+         }
+
+         res.json({
+             ok: true,
+             usuario: usuarioBorrado
+         });
+
+
+    });
+
+
+
+***Se recomienda no borrar por completo los documentos con el .remove, se 
+recomienda actualizar una propiedad con un put , como la propiedad estado,
+de esta forma filtramos con el .find({ estado: true}) 
+
+ app.delete('/usuario/:id', function (req, res) {
+    
+    let id= req.params.id;
+
+    //De esta forma creamos un cuerpo para cambiar alguna propiedad de un documento
+    //en la base de datos
+    let cuerpoCambio={
+        estado:false
+    };
+
+    Usuario.findByIdAndUpdate(id, cuerpoCambio , { new : true }, (err, usuarioDB ) =>{
+
+        if(err){
+            return res.status(400).json({
+                 ok: false,
+                 err
+             });
+         }
+
+         //Esto es lo que retornara usando la api 
+    res.json({
+        ok:true,
+       usuario: usuarioDB,
+        txt
+    });
+
+
+    });
+
+    
+
+});

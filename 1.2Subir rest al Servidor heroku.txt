@@ -1,0 +1,88 @@
+Teniendo el archivo .gitignore para el node-modules/
+
+Primero tenemos que tener instalado heroku y inciar sesion con
+, despues dentro del proyecto
+
+heroku login 
+
+Despues 
+
+heroku creat
+
+Automaticamente, se generea un nombre y links se crea un repositorio en git, 
+despues para subirlo a git 
+
+git push heroku master
+
+Y despues para obtener los links de los repositorios
+
+git remote -v
+
+Asi para confirmar los cambios y subirlos a github
+
+git push heroku master
+
+Ahora agregamos los cambios que tenemos en el sistema
+
+git add .
+
+y tomamos la captura para nuestro sistema
+
+git commit -am "Npm start listo"
+
+Y asi para subir el commit al repositorio
+
+git push heroku master
+
+Despues heroku nos dara el link del hosting que nos dio
+
+ Released v4
+ https://young-meadow-56520.herokuapp.com/ deployed to Heroku
+
+**************
+Nos tenemos que segurar de que el package.json tenga el start para el servidor
+
+"scripts": {
+    "start":"node server/server.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+
+
+PARA CONFIRMAR CAMBIOS Y ACTUALIZAR LA VERSION EN HEROKU
+
+agregamos las carpetas git add .
+
+Creamos el commit git commit -am "arrancar rest"
+
+//Asi lo actualizamos a heroku
+git push heroku master
+
+//Asi actualizamos el reposotorio de git
+git push origin master
+
+
+*****
+
+Para probar el rest en el servidor de heroku, con el postman 
+
+ejemplo, de tipo put
+
+https://young-meadow-56520.herokuapp.com/usuario/dfssdfdsf
+
+Nos va a devolver lo que tenga como request las rutas de server.js
+
+***********
+
+Para crear variables en postman y utilizarlos para el url:
+alado de no environmet , en ajustes, añadimos un nombre despues una key 'url'
+y dentro el url que guarde. sin el ultimo /
+
+ 
+
+
+
+
+
+
+ 
+
