@@ -1,0 +1,33 @@
+Para subir nuestro servicio rest de node a heroku, tenemos que actualizar
+el repositorio de git 
+git add .
+git commit -m "mensaje"
+
+git push origin master
+
+***Y PARA SUBIRLO A HEROKU PREVIAMENTE CONFIGURADO
+git push heroku master 
+
+**Ahora para conectar robo3t con la base de datos de mongo atlas, creamos 
+una coneccion , y utilizamos la informacion la opcion de connect aplication 
+desde mongo Atlas
+
+Copeamos la direccion que nos da mongo altas, con constraseña
+
+mongodb+srv://hiramreyes06:x7JSyKtE2IjRUrvk@cluster0-e0rk6.mongodb.net/cafe?retryWrites=true&w=majority
+
+despues en el robot3t, agregamos la dirrecion , donde dice from srv le y damos 
+click, podemos cambiar el nombre, 
+
+Despues en la parte de athentication, en database agregamos admin
+ agregamos nuestro nombre de usuario y contraseña generada
+
+Y donde dice advenced en deafultDataBase tiene que ir el nombre de la
+coleccion creada en mongo db, los nombres estan en clousters en mongo atlas
+
+y listo darle a conectar
+
+
+
+
+
