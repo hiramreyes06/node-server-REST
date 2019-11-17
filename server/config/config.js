@@ -15,7 +15,7 @@ if( process.env.NODE_ENV === 'dev'){
     urlDB= 'mongodb://localhost:27017/cafe';
 }else{
     //Asi agregamos el link con el que se va a conectar mongoose
-    urlDB= 'mongodb+srv://hiramreyes06:x7JSyKtE2IjRUrvk@cluster0-e0rk6.mongodb.net/cafe'
+    urlDB= process.env.MONGO_URI;
 }
 
 //Asi creamos una variable para en desarrollo con el links
