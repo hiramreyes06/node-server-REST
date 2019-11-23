@@ -1,0 +1,31 @@
+//para que acepte las peticiones desde cualquier origen hasta arriba de
+server.js
+
+app.use((req, res, next) => {
+	res.header('Access-Control-Allow-Origin', '*');
+	res.header('Access-Control-Allow-Headers', 'Authorization, X-API-KEY, Origin, X-Requested-With, Content-Type, Accept, Access-Control-Allow-Request-Method');
+	res.header('Access-Control-Allow-Methods', 'GET, POST, OPTIONS, PUT, DELETE');
+	res.header('Allow', 'GET, POST, OPTIONS, PUT, DELETE');
+	next();
+});
+
+
+
+O creo que podemos probar con nuestro servidor local
+
+res.header('Access-Control-Allow-Origin', 'http://localhost:3000');
+
+Para guardar los cambios es 
+git commit -am "nueva version"
+
+git push heroku master
+
+Y para actualizar el repositorio
+
+git push origin master
+
+Para crear versiones del server
+
+git tags
+
+git tag ....
