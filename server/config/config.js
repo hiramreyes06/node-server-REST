@@ -7,6 +7,17 @@ process.env.PORT = process.env.PORT || 3000;
 //Elegir el entorno o puerto
 process.env.NODE_ENV = process.env.NODE_ENV || 'dev';
 
+//Vencimiento del token
+//60 segundos
+//60 minutos
+//24 horas
+//30 dias
+
+process.env.CADUCIDAD_TOKEN = 60 * 60 * 24 * 30;
+
+//Seed para jwt
+process.env.SEED = process.env.SEED || 'esta-es-la-seed-de-desarrollo';
+
 
 //PARA PODER CORRER EN MODO PRODUCCION Y EN MODO DESARROLLO
 let urlDB;

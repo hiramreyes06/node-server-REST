@@ -29,8 +29,8 @@ app.use(bodyParser.urlencoded({ extended: false }))
 // parse application/json
 app.use(bodyParser.json());
 
-//De esta forma usamos las rutas que tenga el archivo usuario.js
-app.use(require('./routes/usuario' ) );
+//Usar la configuracion global de rutas del index.
+app.use(require('./routes/index'));
 
 //Conectar a base de datos ATLAS o al localhost automaticamente
 //Warnings evitados por los objetos
