@@ -11,13 +11,24 @@ const _= require('underscore');
 //El schema para mongoose
 const Usuario = require('../models/usuario');
 
+//Middleware
+const { verificarToken, verificarRol } = require('../middlewares/autenticacion');
+
 const app = express();
 
 
 //ASi podemos retornar cierta cantidad de objetos de la Base de datos desde/
 //Cierto numero de objeto, desde el http get
 //http://localhost:3000/usuario?limite=3&desde=0
-app.get('/usuario', function (req, res) {
+app.get('/usuario', verificarToken ,  (req, res) => {
+
+//De esta forma obtenemos el payload que tenga el middleware del verificarToken
+//Tambien de esta forma sabemos quien hizo la peticion   
+//return res.json({
+       // usuario: req.usuario,
+        //nombre: req.usuario.nombre,
+       // email: req.usuario.email
+    //});
 
     //Asi definimos en que numero de objeto empezar
     let desde= req.query.desde || 0;
@@ -57,7 +68,10 @@ app.get('/usuario', function (req, res) {
             res.json({
                 ok:true,
                 usuarios,
-                uActivos
+                uActivos,
+                //Data del payload del middlware
+                quien: req.usuario.nombre,
+                hizo: req.usuario.email
             });
 
         });
@@ -71,7 +85,7 @@ app.get('/usuario', function (req, res) {
 
 });
 
-app.post('/usuario', function (req, res) {
+app.post('/usuario', [verificarToken, verificarRol], (req, res) => {
 
 let body= req.body;
 
@@ -108,7 +122,7 @@ usuario.save( ( err, usuariosDB) => {
 
 
 
-app.put('/usuario/:id', function (req, res) {
+app.put('/usuario/:id', verificarToken , (req, res) => {
 
     txt='data cualquiera dog'
     let id= req.params.id;
@@ -141,7 +155,7 @@ app.put('/usuario/:id', function (req, res) {
 
 
 //Para borrar documentos de mongoose fisicamente
-app.delete('/usuario/:id', function (req, res) {
+app.delete('/usuario/:id', verificarToken, (req, res)=>{
     
     let id= req.params.id;
 
@@ -165,7 +179,7 @@ app.delete('/usuario/:id', function (req, res) {
     res.json({
         ok:true,
        usuario: usuarioDB,
-        txt
+       quien: req.usuario.nombre
     });
 
 

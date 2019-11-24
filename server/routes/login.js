@@ -58,6 +58,7 @@ app.post('/login', (req, res) =>{
         }
 
         let token= jwt.sign({
+            //Asi le enviamos como payload todo el usuario, al token
             usuario: usuarioDB
             //Asi el token expira en 30 dias , se establece en config.js
         }, process.env.SEED , { expiresIn: process.env.CADUCIDAD_TOKEN} );
