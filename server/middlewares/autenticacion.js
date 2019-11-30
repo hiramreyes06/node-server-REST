@@ -35,7 +35,7 @@ jwt.verify( token, process.env.SEED, (err, decoded) =>{
 };
 
 //ASi verficamos alguna propiedad del usuario con un middleware
-let verificarRol = (req,res,next)=>{
+let verificarRolAdmin = (req,res,next)=>{
 
 let usuario= req.usuario;
 
@@ -49,7 +49,7 @@ next();
     return res.json({
         ok:false,
         err:{
-            message:'Solo pueden los administradores '
+            message:'Solo pueden los administradores'
         }
     });
 
@@ -62,4 +62,4 @@ next();
 };
 
 
-module.exports= {verificarToken, verificarRol };
+module.exports= {verificarToken, verificarRolAdmin };

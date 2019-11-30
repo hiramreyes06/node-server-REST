@@ -12,7 +12,7 @@ const _= require('underscore');
 const Usuario = require('../models/usuario');
 
 //Middleware
-const { verificarToken, verificarRol } = require('../middlewares/autenticacion');
+const { verificarToken, verificarRolAdmin } = require('../middlewares/autenticacion');
 
 const app = express();
 
@@ -85,7 +85,9 @@ app.get('/usuario', verificarToken ,  (req, res) => {
 
 });
 
-app.post('/usuario', [verificarToken, verificarRol], (req, res) => {
+//Crear usuario en la base de datos
+
+app.post('/usuario', [verificarToken, verificarRolAdmin], (req, res) => {
 
 let body= req.body;
 
@@ -124,11 +126,11 @@ usuario.save( ( err, usuariosDB) => {
 
 app.put('/usuario/:id', verificarToken , (req, res) => {
 
-    txt='data cualquiera dog'
+    txt='data cualquiera dog';
     let id= req.params.id;
 
     //Para especificar que proopiedades SI pueden modificarse con put
-    let body= _.pick( req.body, ['nombre','email','img','role','estado']);
+    let body= _.pick( req.body, ['nombre','img','role','estado']);
 
     Usuario.findByIdAndUpdate(id, body, { new : true, runValidators:true }, (err, usuarioDB ) =>{
 

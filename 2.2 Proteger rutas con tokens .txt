@@ -1,0 +1,104 @@
+Para eso se necesita crear un middleware , que se agrega como 2ndo 
+parametro en las rutas, pero primero se crea un archivo dentro de server llamado
+middlewares/autenticacion.js el cual debe contener:
+
+const jwt = require('jsonwebtoken');
+
+
+//Verificar token
+
+//Asi para crear un middleware
+let verificarToken= ( req, res, next ) =>{
+
+let token= req.get('token');
+
+//De esta forma evualuamos el token en base a la seed que este en el 
+//entorno de heroku
+jwt.verify( token, process.env.SEED, (err, decoded) =>{
+
+    if( err ){
+        return res.status(401).json({
+            ok:false,
+            err
+        });
+    }
+
+//Asi capturamos todo el payload
+    req.usuario= decoded.usuario;
+
+    //Asi terminamos el proceso del middleware, OBLIGATORIO
+    next();
+
+});
+
+console.log(token);
+
+};
+
+module.exports= {verificarToken};
+
+Despues debemos utilizarlo en la ruta para protegerla, como en routes/usuario.js
+le importamos, y se lo agregamos a la ruta 
+
+//Middleware
+const { verificarToken } = require('../middlewares/autenticacion');
+
+app.get('/usuario', verificarToken ,  (req, res) => { ...
+
+El middleware nos dara un payload verificado o una respuesta que puede ser
+utilizada asi
+
+//ASi retornamos la respuesta para la api
+            res.json({
+                ok:true,
+                usuarios,
+                uActivos,
+                //Data del payload del middlware
+                quien: req.usuario.nombre,
+                hizo: req.usuario.email
+            });
+
+
+********Ahora para veriificar alguna propidead del un usuario con un middleware
+en el autenticacion.js , creamos una variable para el middleware
+
+let verificarRol = (req,res,next)=>{
+
+let usuario= req.usuario;
+
+if( usuario.role === 'ADMIN_ROLE') {
+//El next significa que el middlware aprovo la validacion, necesario para continuar
+next();
+
+}else{
+
+    return res.json({
+        ok:false,
+        err:{
+            message:'Solo administradores pueden'
+        }
+    });
+
+}
+    
+
+
+
+
+};
+
+
+module.exports= {verificarToken, verificarRol };
+
+y lo exportamos para importarlo a la ruta que queramos, como en 
+routes/usuario.js , si es mas de un middlware , como arreglo
+
+app.post('/usuario', [verificarToken, verificarRol], (req, res) => {
+
+
+
+
+
+
+
+

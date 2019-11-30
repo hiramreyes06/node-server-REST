@@ -1,0 +1,13 @@
+Para poder actualizar rapidamente la variable del token al hacer el login, 
+en la peticions login de tipo post en Tests, agregamos el codigo, para que 
+aztualice el valor de la variable
+
+let resp= pm.response.json();
+if(resp.ok)
+{
+    let token=resp.token;
+    pm.environment.set("token", token);
+}else
+{
+     pm.environment.set("token", '');
+}

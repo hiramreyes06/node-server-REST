@@ -73,6 +73,6 @@ usuarioSchema.methods.toJSON = function(){
 //Asi le añadimos plugins a los schemas
 usuarioSchema.plugin( uniqueValidator, {message:'{PATH} debe de ser unico'});
 
-//Asi se exporta el modelo del usuario para mongoose
+//Asi se exporta el modelo del Usuario para mongoose y crea la coleccion
 //Primero se le agrega el nombre y despues el Schema
 module.exports= mongoose.model('Usuario', usuarioSchema);

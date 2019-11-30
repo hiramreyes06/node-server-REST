@@ -1,0 +1,90 @@
+Los token sirve para hacer mas eficiente las variables de desicion para la
+administracion de sesiones de los usuarios.
+
+Los JWT esta dividido en 3 partes el header, payload y la firma, el header tiene
+informacion sobre el algoritmo usado para la encriptacion y el tipo de token.
+El payload contiene la informacion que queremos que este en el token (vulnerable)
+La firma le permite al JWT validar si es vailido. Para asi poder evitar tokens falsos
+
+Cada ususario tendra un token generado en su dispositivo o computadora, con
+un contenido unico pero la misma estructura para todos.
+Los tokens se pueden utilizar para enviarlos a traves de peticiones rest
+Los tokens expiran 
+
+Para eso reutilizamos el servidor rest, del cual, crearemos 2 archivos el
+index.js y el login.js dentro de la carpeta routes., En el cual en el index se le
+agregaran los requere de las rutas para juntarlas, como con el codigo de ejemlo
+
+Ahora para crear un json web token pra un usario que se logeo, instalamos el 
+paquete
+
+npm i jsonwebtoken --save
+
+Despues en el .js como routes/login.js , creamos el objeto de jwt
+
+const jwt = require('jsonwebtoken');
+
+antes de regrear el res.json creamos el token con los parametros los datos, 
+la seed y el tiempo en el que expira de la ruta login de tipo post y se lo 
+agregamos, la caducidad esta en el config.js y la seed se tiene que crear la
+variable desde el entorno de heroku. en el proyecto
+
+heroku config:set SEED="aqui-va-la-seed"
+
+**Despues actuaizar el repositorio en heroku
+git add .
+git commit -m "token con seed"
+git push heroku master
+
+y en el config.js agregamos la caducidad y la seed
+
+process.env.CADUCIDAD_TOKEN = 60 * 60 * 24 * 30;
+
+//Seed para jwt
+process.env.SEED = process.env.SEED || 'esta-es-la-seed-de-desarrollo';
+
+Ahora agregamos las variables al login.js para el token
+
+let token= jwt.sign({
+            usuario: usuarioDB
+            //Asi el token expira en 30 dias , se establece en config.js
+        }, process.env.SEED , { expiresIn: process.env.CADUCIDAD_TOKEN} );
+        
+        //Esto retornamos si hace match la contrasena
+        res.json({
+         ok: true,
+         usuario: usuarioDB,
+         token  
+
+        });
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

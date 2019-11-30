@@ -1,0 +1,27 @@
+Para poder realizar una busqueda y mostrar informacion de una coleccion a 
+otra, tenemos que agregarle al modelo la referencia a la coleccion que va a 
+hacer la busqueda , como en models/categoria.js en una propiedad
+
+quien:{
+    type: String,
+    required:[true, 'La persona es requerida'],
+    //De esta forma podemos hacer referencia con el populate de una coleccion a otra
+    ref:'Usuario'
+}
+
+Despues en la ruta en la que estamos buscando en la coleccion, se le agrega 
+el .populate , despues agregamos la propiedad que va hacer la busqueda, y
+despues las propiedades que queremos regresar.
+
+app.get('/categoria', verificarToken, ( req, res ) =>{
+
+Categoria.find({ estado:true })
+//Revisa el id o de la coleccion que estoy buscando
+//quien es una propiedad que tiene la referencia de la coleccion Usuarios
+.populate('quien', 'nombre email')
+.exec( (err, categorias) =>{
+
+***SE puden agregar varios .populate
+
+
+
