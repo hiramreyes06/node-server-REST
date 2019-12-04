@@ -1,0 +1,21 @@
+En la carpeta uploads , podemos crear sub carpetas para dividir en categorias
+las subidas de imagenes, como usuarios y productos se necesita
+
+const express = require('express');
+
+const fileUpload = require('express-fileupload');
+
+const app= express();
+
+//Para verificar si es la misma imagen del usuario
+const fs= require('fs');
+const path= require('path');
+
+//Opciones por default
+app.use(fileUpload({ useTempFiles: true }) );
+
+
+
+
+MEJOR EJEMPLO EN EL ARCHIVO server/uploads.js
+

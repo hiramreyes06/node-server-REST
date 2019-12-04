@@ -1,0 +1,53 @@
+Primero debemos instalar el paquete npm
+
+npm i express-fileupload --save
+
+Despues creamos una carpeta en la raiz del proyecto , la cual sera donde se 
+guardaran los archivos. /uploads
+
+Ahora creamos un archivo .js para crear rutas para la subida de archivos.
+routes/upload.js
+importamos express , la librertia fileUpload y iniciamos express en app
+
+const express = require('express');
+
+const fileUpload = require('express-fileupload');
+
+const app= express();
+
+//Asi añadimos configuracion inicial
+//Opciones por default
+app.use(fileUpload({ useTempFiles: true }) );
+
+//Creamos la ruta http
+app.put('/upload', (req,res) =>{
+
+    if(!req.files){
+        return res.status(400).json({
+            ok:true,
+            message:'No se ha seleccionado ningun archivo'
+        });
+    }
+
+    //Asi le asignamos un nombre al input '.archivo' que se usara desde la peticion
+//http
+    let archivo= req.files.archivo;
+
+    archivo.mv('uploads/filename.jpg', (err)=> {
+        if (err)
+          return res.status(500).json({
+              ok:false,
+              error: err
+          });
+    
+        res.json({
+            ok:true,
+            message:'img subida correctamente dog'
+        });
+      });
+
+
+});
+
+module.exports= app;
+

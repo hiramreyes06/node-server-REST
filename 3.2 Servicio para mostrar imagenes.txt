@@ -1,0 +1,82 @@
+Primero creamos un .js para las rutas de las imagenes, routes/imagenes.js
+en el cual dentro importamos express, fs de node para comprovar si un
+archivo existe, el path para crear un path absoluto, y modificar el middleware 
+para que se lea el token por el url query
+
+const express= require('express');
+
+const fs= require( 'fs');
+
+const path= require('path');
+
+const {verificarTokenImg}= require('../middlewares/autenticacion');
+
+let app= express();
+
+//Es recomendable enviar el token por el url ya que si la imagen no lo valida
+//cualquier persona que tenga el url completo podra acceder a al archivo
+app.get('/imagen/:tipo/:img', verificarTokenImg , (req,res) =>{
+
+    let tipo= req.params.tipo;
+    let img= req.params.img;
+
+    
+
+    let pathImagen = path.resolve(__dirname,`../../uploads/${tipo}/${img}`);
+
+
+    if(fs.existsSync(pathImagen)){
+
+        res.sendFile(pathImagen);
+
+    }else{
+
+       //La carpeta assets puede contener archivos que estaran staticos en el servidor
+    //La carpeta assets esta protegida 
+    //El path ocupa ser absoluto par ala funcion sendFile
+    let noImgPath= path.resolve(__dirname,'../assets/no-image.jpg')
+
+    //Para retornar una imagen 
+    //send file lee el archivo y retorna el mismo tipo de archivo
+    res.sendFile(noImgPath);
+    }
+
+    
+});
+
+module.exports= app;
+
+Ahora en los middleware lo modificamos para que lea el token por url query
+
+
+//Para verificar el token por medio del url y query
+let verificarTokenImg= ( req, res, next ) =>{
+
+    let token= req.query.token;
+    
+    //De esta forma evualuamos el token en base a la seed que este en el 
+    //entorno de heroku y regresa el payload desifrado
+    jwt.verify( token, process.env.SEED, (err, decoded) =>{
+    
+        if( err ){
+            return res.status(401).json({
+                ok:false,
+                err:{
+                    message:'Token no valido'
+                }
+            });
+        }
+    
+        //Asi guardamos lo que venga en el payload, y donde se usa 
+        req.usuario= decoded.usuario;
+    
+        //Asi terminamos el proceso del middleware, OBLIGATORIO
+        next();
+    
+    });
+    
+    //console.log(token);
+    
+    };
+
+

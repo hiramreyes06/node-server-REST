@@ -95,6 +95,7 @@ let body= req.body;
 let usuario= new Usuario({
 nombre: body.nombre,
 email: body.email,
+img:'SINFOTOMEN',
 //Asi encriptamos la constraseña del usario, strings 
 password: bcrypt.hashSync(body.password, 10), 
 role: body.role

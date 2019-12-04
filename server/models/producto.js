@@ -11,6 +11,10 @@ nombre:{
     required: [true,' El nombre es requerido'],
     unique:true
 },
+img:{
+    type: String,
+    required:false
+},
 codigo:{
     type:String,
     required:[true, 'Codigo obligatorio'],
