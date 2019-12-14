@@ -16,15 +16,15 @@ const bodyParser = require('body-parser')
 //Y para obtener el payload que tiene la peticion post 
 //Cada peticion pasa por estas lineas debodyparser
 
-const options={
-    origin :'http://localhost:8100' ,
-    credentials:true, 
-    methods: "GET,HEAD,PUT,PATCH,POST,DELETE",
-   allowedHeaders: 'Content-Type,Authorization'
-}
+// const options={
+//     origin :'http://localhost:8100' ,
+//     credentials:true, 
+//     methods: "GET,HEAD,PUT,PATCH,POST,DELETE",
+//    allowedHeaders: 'Content-Type,Authorization'
+// }
 
 //Permitir uso y acceso a la api desde cualquier lugar
-app.use(cors({ options }));
+app.use(cors());
 
 
 
