@@ -7,7 +7,22 @@ const mongoose = require('mongoose');
 
 const app = express();
 
-const cors= require('cors');
+app.use((req, res, next) => {
+    res.header('Access-Control-Allow-Origin', '*');
+
+    // authorized headers for preflight requests
+    // https://developer.mozilla.org/en-US/docs/Glossary/preflight_request
+    res.header('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept');
+    next();
+
+    app.options('*', (req, res) => {
+        // allowed XHR methods  
+        res.header('Access-Control-Allow-Methods', 'GET, PATCH, PUT, POST, DELETE, OPTIONS');
+        res.send();
+    });
+});
+
+//const cors= require('cors');
 
 const bodyParser = require('body-parser')
 
@@ -19,23 +34,14 @@ const bodyParser = require('body-parser')
 // const options={
 //     origin :'http://localhost:8100' ,
 //     credentials:true, 
+//     Access-Control-Allow-Origin: '*',
 //     methods: "GET,HEAD,PUT,PATCH,POST,DELETE",
 //    allowedHeaders: 'Content-Type,Authorization'
 // }
 
-let whitelist = [
-    'http://localhost:8100/login',
-];
- let corsOptions = {
-    origin: function(origin , callback) {
-        let originIsWhitelisted = whitelist.indexOf(origin) !== -1;
-        callback(null, originIsWhitelisted);
-    },
-    credentials: true,
-    
-};
-//Permitir uso y acceso a la api desde cualquier lugar
-app.use(cors( corsOptions ));
+
+// Permitir uso y acceso a la api desde cualquier lugar
+// app.use(cors( corsOptions ));
 
 
 
