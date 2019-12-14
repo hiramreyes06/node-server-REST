@@ -15,25 +15,20 @@ const bodyParser = require('body-parser')
 //Express Permite procesar la informacion y la serializa en objeto json 
 //Y para obtener el payload que tiene la peticion post 
 //Cada peticion pasa por estas lineas debodyparser
-// const options={
-//     origin :true ,
-//     credentials:true, 
-//     methods: "GET,HEAD,PUT,PATCH,POST,DELETE",
-//    allowedHeaders: 'Content-Type,Authorization'
-// }
+
+const options={
+    origin :'http://localhost:8100' ,
+    credentials:true, 
+    methods: "GET,HEAD,PUT,PATCH,POST,DELETE",
+   allowedHeaders: 'Content-Type,Authorization'
+}
 
 //Permitir uso y acceso a la api desde cualquier lugar
-//app.use(cors({ options }));
+app.use(cors({ options }));
 
 
 
-app.use(function(req, res, next) {
-    res.header("Access-Control-Allow-Origin", "http://localhost:8100");
-    res.header('Access-Control-Allow-Headers', 'Authorization, X-API-KEY, Origin, X-Requested-With, Content-Type, Accept, Access-COntrol-Allow-Request-Method');
-    res.header('Access-Control-Allow-Methods', 'GET, POST, OPTIONS, PUT, DELETE');
-    res.header('Allow', 'GET, POST, OPTIONS, PUT, DELETE');
-    next();
-  });
+
 
 
 
