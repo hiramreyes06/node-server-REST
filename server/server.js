@@ -23,8 +23,19 @@ const bodyParser = require('body-parser')
 //    allowedHeaders: 'Content-Type,Authorization'
 // }
 
+let whitelist = [
+    'http://localhost:8100',
+];
+ let corsOptions = {
+    origin: function(origin , callback) {
+        let originIsWhitelisted = whitelist.indexOf(origin) !== -1;
+        callback(null, originIsWhitelisted);
+    },
+    credentials: true,
+    
+};
 //Permitir uso y acceso a la api desde cualquier lugar
-app.use(cors());
+app.use(cors( corsOptions ));
 
 
 
