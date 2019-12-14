@@ -24,7 +24,7 @@ const bodyParser = require('body-parser')
 // }
 
 let whitelist = [
-    'http://localhost:8100',
+    'http://localhost:8100/login',
 ];
  let corsOptions = {
     origin: function(origin , callback) {
