@@ -18,7 +18,9 @@ const bodyParser = require('body-parser')
 
 
 //Permitir uso y acceso a la api desde cualquier lugar
-app.use( cors({ origin : true , credentials: true }));
+
+
+app.options('*', cors( { origin : true,  }, { credentials: true }))
 
 // parse application/x-www-form-urlencoded
 app.use(bodyParser.urlencoded({ extended: false }))
