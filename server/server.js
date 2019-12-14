@@ -18,7 +18,10 @@ const bodyParser = require('body-parser')
 
 
 //Permitir uso y acceso a la api desde cualquier lugar
-app.use(cors({ origin :'*' , credentials:true, methods: "GET,HEAD,PUT,PATCH,POST,DELETE" }));
+app.use(cors({ origin :true ,
+     credentials:true, 
+     methods: "GET,HEAD,PUT,PATCH,POST,DELETE",
+    allowedHeaders: 'Content-Type,Authorization' }));
 
 
 
