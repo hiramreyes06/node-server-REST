@@ -44,7 +44,7 @@ app.post('/login', (req, res) =>{
 
         //Asi encriptamos la contraseña obtenida del payload y la comparamos
         //Con una contra de la BD
-        if( !bcrypt.compareSync( body.password, usuarioDB.password ) ){
+        if( !bcrypt.hashSync.compareSync( body.password, usuarioDB.password ) ){
 
             return res.status(400).json({
                 ok:false,
