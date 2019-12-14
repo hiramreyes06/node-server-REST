@@ -15,7 +15,7 @@ const app = express();
 
 app.post('/login', (req, res) =>{
 
-    let body= req.body;
+    let body = req.body;
 
     //De esta forma creamos una busqueda la cual busca un objeto que
     //cumpla con la condicion 
@@ -44,7 +44,7 @@ app.post('/login', (req, res) =>{
 
         //Asi encriptamos la contraseña obtenida del payload y la comparamos
         //Con una contra de la BD
-        if( bcrypt.compareSync( body.password, 10 , usuarioDB.password ) === false ){
+        if( bcrypt.compareSync( body.password , usuarioDB.password ) === false ){
 
             return res.status(400).json({
                 ok:false,
