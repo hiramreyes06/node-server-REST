@@ -1,6 +1,13 @@
 Teniendo el archivo .gitignore para el node-modules/
 
-Primero tenemos que tener instalado heroku y inciar sesion con
+Nos tenemos que segurar de que el package.json tenga el start para el servidor
+
+"scripts": {
+    "start":"node server/server.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+
+Despues tenemos que tener instalado heroku y inciar sesion con
 , despues dentro del proyecto
 
 heroku login 
@@ -40,12 +47,7 @@ Despues heroku nos dara el link del hosting que nos dio
  https://young-meadow-56520.herokuapp.com/ deployed to Heroku
 
 **************
-Nos tenemos que segurar de que el package.json tenga el start para el servidor
 
-"scripts": {
-    "start":"node server/server.js",
-    "test": "echo \"Error: no test specified\" && exit 1"
-  },
 
 
 PARA CONFIRMAR CAMBIOS Y ACTUALIZAR LA VERSION EN HEROKU

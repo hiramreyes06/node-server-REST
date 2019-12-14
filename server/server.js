@@ -6,6 +6,9 @@ const express = require('express');
 const mongoose = require('mongoose');
 
 const app = express();
+
+const cors= require('cors');
+
 const bodyParser = require('body-parser')
 
 
@@ -15,13 +18,7 @@ const bodyParser = require('body-parser')
 
 
 //Permitir uso y acceso a la api desde cualquier lugar
-app.use((req, res, next) => {
-	res.header('Access-Control-Allow-Origin', '*');
-	res.header('Access-Control-Allow-Headers', 'Authorization, X-API-KEY, Origin, X-Requested-With, Content-Type, Accept, Access-Control-Allow-Request-Method');
-	res.header('Access-Control-Allow-Methods', 'GET, POST, OPTIONS, PUT, DELETE');
-	res.header('Allow', 'GET, POST, OPTIONS, PUT, DELETE');
-	next();
-});
+app.use( cors({ origin : true , credentials: true }));
 
 // parse application/x-www-form-urlencoded
 app.use(bodyParser.urlencoded({ extended: false }))
