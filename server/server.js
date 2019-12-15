@@ -22,17 +22,18 @@ const bodyParser = require('body-parser')
 
 
 // Permitir uso y acceso a la api desde cualquier lugar
-// const cors= require('cors');
+ const cors= require('cors');
 // app.use(cors( { origin:true , credentials:true } ));
 
-var allowCrossDomain = function(req, res, next) {
-    res.header('Access-Control-Allow-Origin', '*');
-    res.header('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE');
-    res.header('Access-Control-Allow-Headers', 'Content-Type');
-    next();
+var corsOptions = {
+    origin: '*',
+    methods: ['POST, GET, PUT, DELETE, OPTIONS'],
+    allowedHeaders: ['Origin', 'X-Requested-With', 'contentType', 'Content-Type', 'Accept', 'Authorization'],
+    credentials: true,
+    optionsSuccessStatus: 200
     }
 console.log('Se actualizo perro');
-    app.use(allowCrossDomain);
+app.use( cors(corsOptions) )
 
 // app.use((req, res, next) => {
 //     res.header('Access-Control-Allow-Origin', '*');
