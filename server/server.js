@@ -22,8 +22,17 @@ const bodyParser = require('body-parser')
 
 
 // Permitir uso y acceso a la api desde cualquier lugar
-const cors= require('cors');
-app.use(cors( { origin:true , credentials:true } ));
+// const cors= require('cors');
+// app.use(cors( { origin:true , credentials:true } ));
+
+var allowCrossDomain = function(req, res, next) {
+    res.header('Access-Control-Allow-Origin', '*');
+    res.header('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE');
+    res.header('Access-Control-Allow-Headers', 'Content-Type');
+    next();
+    }
+
+    app.use(allowCrossDomain);
 
 // app.use((req, res, next) => {
 //     res.header('Access-Control-Allow-Origin', '*');
