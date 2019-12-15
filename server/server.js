@@ -31,7 +31,7 @@ var allowCrossDomain = function(req, res, next) {
     res.header('Access-Control-Allow-Headers', 'Content-Type');
     next();
     }
-
+console.log('Se actualizo perro');
     app.use(allowCrossDomain);
 
 // app.use((req, res, next) => {
