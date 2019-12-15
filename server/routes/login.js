@@ -12,6 +12,21 @@ const Usuario = require('../models/usuario');
 
 const app = express();
 
+// Permitir uso y acceso a la api desde cualquier lugar
+const cors= require('cors');
+// app.use(cors( { origin:true , credentials:true } ));
+
+var corsOptions = {
+    origin: '*',
+    methods: ['POST, GET, PUT, DELETE, OPTIONS'],
+    allowedHeaders: ['Origin', 'X-Requested-With', 'contentType', 'Content-Type', 'Accept', 'Authorization'],
+    credentials: true,
+    optionsSuccessStatus: 200
+    }
+
+app.use( cors(corsOptions) )
+console.log('Cors configurado');
+
 
 app.post('/login', (req, res) =>{
 

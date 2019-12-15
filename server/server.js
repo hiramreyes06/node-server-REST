@@ -32,8 +32,9 @@ var corsOptions = {
     credentials: true,
     optionsSuccessStatus: 200
     }
-console.log('Se actualizo perro');
+
 app.use( cors(corsOptions) )
+console.log('Cors configurado');
 
 // app.use((req, res, next) => {
 //     res.header('Access-Control-Allow-Origin', '*');
