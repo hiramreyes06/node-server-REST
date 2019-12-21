@@ -156,6 +156,16 @@ app.put('/usuario/:id', verificarToken , (req, res) => {
 
 });
 
+app.get('/usuarioToken', verificarToken, (req, res)=>{
+
+    res.json({
+        ok:true,
+        usuario:req.usuario
+    });
+
+
+} );
+
 
 //Para borrar documentos de mongoose fisicamente
 app.delete('/usuario/:id', verificarToken, (req, res)=>{

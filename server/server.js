@@ -7,11 +7,18 @@ const mongoose = require('mongoose');
 
 const app = express();
 
+const fs = require('fs')
+
+const path = require('path');
+
 
 
 
 
 const bodyParser = require('body-parser')
+
+//Middleware para subir archivos
+const fileUpload = require('express-fileupload');
 
 
 //Express Permite procesar la informacion y la serializa en objeto json 
@@ -27,25 +34,8 @@ const bodyParser = require('body-parser')
 app.use( cors( { origin:true, credentials:true }) )
 console.log('Cors configurado');
 
-// app.use((req, res, next) => {
-//     res.header('Access-Control-Allow-Origin', '*');
-
-//     // authorized headers for preflight requests
-//     // https://developer.mozilla.org/en-US/docs/Glossary/preflight_request
-//     res.header('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept');
-//     next();
-
-//     app.options('*', (req, res) => {
-//         // allowed XHR methods  
-//         res.header('Access-Control-Allow-Methods', 'GET, PATCH, PUT, POST, DELETE, OPTIONS');
-//         res.send();
-//     });
-// });
-
-
-
-
-
+//Creamos las carpetas para subir archivos en el servidor
+crearCarpetas();
 
 
 // parse application/x-www-form-urlencoded
@@ -53,6 +43,9 @@ app.use(bodyParser.urlencoded({ extended: false }))
  
 // parse application/json
 app.use(bodyParser.json());
+
+//File upload
+app.use( fileUpload() );
 
 //Usar la configuracion global de rutas del index.
 app.use(require('./routes/index'));
@@ -71,6 +64,29 @@ mongoose.connect(process.env.URLDB, {
     console.log('Base de datos ONLINE');
 
 });
+
+//De esta forma se verifica si estan las carpetas si no las crea
+function crearCarpetas(){
+//El __dirname contendra la direccion en la que se encuentra en el sistema
+urlSystem=path.resolve(__dirname,'../uploads');
+
+console.log(urlSystem );
+
+if(!fs.existsSync(urlSystem ) ){
+
+console.log('Create perro');
+
+fs.mkdirSync(urlSystem);
+
+fs.mkdirSync(urlSystem+'/usuarios');
+fs.mkdirSync(urlSystem+'/productos');
+
+
+}else{
+    console.log('La carpeta uploads ya existe');
+}
+
+}
 
 app.listen( process.env.PORT, () => {
     console.log('Escuchando puerto: ', process.env.PORT);

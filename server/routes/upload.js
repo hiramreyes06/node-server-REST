@@ -202,4 +202,6 @@ function borrarFoto(nombreImg, tipo){
           }
 
 }
-module.exports= app;
+
+// BLOQUEADO PARA PROBAR OTRO METODO CON IONIC
+//module.exports= app;
