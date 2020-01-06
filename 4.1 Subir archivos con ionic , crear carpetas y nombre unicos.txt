@@ -1,0 +1,27 @@
+Para generar un nombre unico para el archivo que se va a subir al servidor
+instalamos
+
+npm install uniqid
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

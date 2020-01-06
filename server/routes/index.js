@@ -23,6 +23,8 @@ app.use(require('./producto'));
 
 app.use(require('./archivos'));
 
+app.use(require('./posts'));
+
 app.use(require('./imagenes'));
 
 

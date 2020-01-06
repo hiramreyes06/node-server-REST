@@ -16,6 +16,56 @@ const { verificarToken, verificarRolAdmin } = require('../middlewares/autenticac
 
 const app = express();
 
+app.get('/nmUsuarios',[verificarToken] ,(req,res) =>{
+
+    Usuario.countDocuments({}, (err, cantidad)=>{
+
+        if(err){
+            res.status(400).json({
+                ok:false,
+                err
+            });
+        }
+
+        res.json({
+            ok:true,
+            total: cantidad
+        });
+
+
+    } );
+
+    
+
+});
+
+//Buscar usuarios por termino
+app.get('/usuarios/:termino',[verificarToken] ,(req, res) =>{
+
+let termino= new RegExp(req.params.termino, 'i');
+
+Usuario.find({ nombre: termino})
+.limit(10)
+
+.exec( (err, usuarios) =>{
+
+    if(err){
+        res.status(400).json({
+            ok:false,
+            err
+        });
+    }
+
+    res.json({
+        ok:true,
+        usuarios
+    });
+
+
+} );
+
+});
+
 
 //ASi podemos retornar cierta cantidad de objetos de la Base de datos desde/
 //Cierto numero de objeto, desde el http get
@@ -122,6 +172,42 @@ usuario.save( ( err, usuariosDB) => {
 
 
 });
+
+app.post('/registro', (req, res) => {
+
+    let body= req.body;
+    
+    //Asi creamnos un objeto con esas propiedades y campos para mongoose
+    let usuario= new Usuario({
+    nombre: body.nombre,
+    email: body.email,
+    img:'SINFOTOMEN',
+    //Asi encriptamos la constraseña del usario, strings 
+    password: bcrypt.hashSync(body.password, 10), 
+    role: body.role
+    });
+    
+    
+    //PARA GUARDAR EN LA BASE DE DATOS
+    //Asi capturamos el error
+    usuario.save( ( err, usuariosDB) => {
+        if(err){
+           return res.status(400).json({
+                ok: false,
+                err
+            });
+        }
+    
+        //Asi retornamos el usuario creado correctamente
+        res.json({
+            ok:true,
+            usuario: usuariosDB
+        });
+    
+    });
+    
+    
+    });
 
 
 

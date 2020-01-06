@@ -18,7 +18,9 @@ const path = require('path');
 const bodyParser = require('body-parser')
 
 //Middleware para subir archivos
-const fileUpload = require('express-fileupload');
+//const fileUpload = require('express-fileupload');
+
+
 
 
 //Express Permite procesar la informacion y la serializa en objeto json 
@@ -45,7 +47,7 @@ app.use(bodyParser.urlencoded({ extended: false }))
 app.use(bodyParser.json());
 
 //File upload
-app.use( fileUpload() );
+//app.use( fileUpload() );
 
 //Usar la configuracion global de rutas del index.
 app.use(require('./routes/index'));

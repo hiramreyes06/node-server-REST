@@ -4,7 +4,7 @@ const express = require('express');
 const uniqid= require('uniqid');
 
 //Middleware
-const { verificarToken, verificarRolAdmin } = require('../middlewares/autenticacion');
+const { verificarToken, verificarRolAdmin} = require('../middlewares/autenticacion');
 
 const fs = require('fs')
 
@@ -12,9 +12,35 @@ const path = require('path');
 
 const urlUploads = path.resolve(__dirname,'../../uploads');
 
+console.log('Urlsimtem de uploads: ',urlUploads);
+
+//Checar como hacer..
 const Posts= require('../models/posts')
 
+var multer  = require('multer')
+
+
+var storage = multer.diskStorage({
+    destination: function (req, file, cb) {
+      cb(null, urlUploads);
+    },
+    filename: function (req, file, cb) {
+      cb(null, crearIdUnico(file.originalname) )
+    }
+  });
+
+var upload = multer({  storage });
+
+
 const app = express();
+
+app.get('/', (req, res) =>{
+
+    res.json({
+        message: 'Todo ok'
+    })
+
+});
 
 app.get('/imagen/:img',[verificarToken], (req, res)=>{
 
@@ -35,88 +61,118 @@ res.sendFile(`${urlUploads}/${userID}/posts/${img}`);
 
 } );
 
-app.post('/post',[ verificarToken] ,(req,res)=>{
+// app.post('/post',[ verificarToken] ,(req,res)=>{
 
-    //faltaria atrapar los request de cada propiedad
+//     //faltaria atrapar los request de cada propiedad
 
- const userId=req.usuario._id;   
+//  const userId=req.usuario._id;   
  
- //Debe ser igual al que tenga la pripiedad en el modelo
- const imgs= tempToPosts(userId);
+//  //Debe ser igual al que tenga la pripiedad en el modelo
+//  const imgs= tempToPosts(userId);
 
-let post= new Posts({
- fecha: new Date().toISOString(),
- texto:'Texto de hardcore',   
-imgs:imgs,
-cords:'444,98498.89464,644',
-usuario: userId
+// let post= new Posts({
+//  fecha: new Date().toISOString(),
+//  texto:'Texto de hardcore',   
+// imgs:imgs,
+// cords:'444,98498.89464,644',
+// usuario: userId
 
-});
+// });
 
-post.save( (err, post)=>{
+// post.save( (err, post)=>{
 
-    if(err){
-       return res.status(400).json({
-           ok:false,
-           err
-       });
-    }
+//     if(err){
+//        return res.status(400).json({
+//            ok:false,
+//            err
+//        });
+//     }
 
 
-    res.json({
-        ok:true,
-        imgs,
-        userid:userId
+//     res.json({
+//         ok:true,
+//         imgs,
+//         userid:userId
    
-    });
+//     });
 
-} );
+// } );
 
- 
+// } );
 
 
-} );
+
 
 //El async es para la funcion mover arch a tempo que regresa una promesa
-app.post('/archivos', [verificarToken], async(req, res)=>{
+app.post('/archivos',[verificarToken,upload.single('file')], (req, res)=>{
+
+    if (!req.file) {
+        console.log("No file received");
+        return res.send({
+          success: false
+        });
+    
+      } else {
+
+    //   await  guardarArchTemporal(req.file, req.usuario._id);
+
+        console.log('file received successfully');
+       return res.json({
+            ok: 'Tu que cress',
+            fileName: req.file.name
+        });
+      }
+    
+
+    
+       
+
+    // if (!req.file) {
+    //     console.log("No file received");
+    //     return res.status(400).json({
+    //       success: false
+    //     });
+    
+    //   } else {
+    //     console.log('file received');
+    //     return res.send({
+    //       success: true
+    //     })
+    //   }
 
 
+  // await guardarArchTemporal(req.file,req.usuario._id);
 
-if( !req.files ){
-    return res.status(400).json({
-        ok:false,
-        mensaje:'No se subio ningun archivo'
-    });
-}
-                        //El ultimo significa el nombre de la propieddad
-const file= req.files.image;
 
-if( !file ){
-    return res.status(400).json({
-        ok:false,
-        mensaje:'No se subio ningun archivo - image'
-    });
-}
+// if( !req.files ){
+//     return res.status(400).json({
+//         ok:false,
+//         mensaje:'No se subio ningun archivo'
+//     });
+// }
+//                         //El ultimo significa el nombre de la propieddad
+// const file= req.files.image;
 
-//Asi validamos lo que tenga el mimetype
-if( ! file.mimetype.includes('image') ){
-    return res.status(400).json({
-        ok:false,
-        mensaje:'Solo imagenes - image'
-    });
-}
+// if( !file ){
+//     return res.status(400).json({
+//         ok:false,
+//         mensaje:'No se subio ningun archivo - image'
+//     });
+// }
+
+// //Asi validamos lo que tenga el mimetype
+// if( ! file.mimetype.includes('image') ){
+//     return res.status(400).json({
+//         ok:false,
+//         mensaje:'Solo imagenes - image'
+//     });
+// }
 
 
 //Tenemos que agregarle el awit para que espere la promesa resuelta
-await guardarArchTemporal(file, req.usuario._id);
+//await guardarArchTemporal(file, req.usuario._id);
 
 
-console.log(req.usuario._id);
-
-res.json({
-    ok:true,
-    archivo: file.mimetype
-})
 
 } );
 
@@ -193,7 +249,7 @@ function getTempImagenes( userId ) {
 
 function usuarioCarpeta(userId ){
 
-    const userDir= path.resolve(urlUploads+'/'+userId);
+     this.userDir= path.resolve(urlUploads+'/'+userId);
     
 
     console.log('Nuevo', userDir);
@@ -201,9 +257,9 @@ function usuarioCarpeta(userId ){
 
     if(! fs.existsSync(userDir) ){
 
-        fs.mkdirSync(urlUploads+`/${userId}`);
-        fs.mkdirSync(urlUploads+`/${userId}`+'/temp');
-        fs.mkdirSync(urlUploads+`/${userId}`+'/posts');
+        fs.mkdirSync(`${userDir}`);
+        fs.mkdirSync(`${userDir}/temp`);
+        fs.mkdirSync(`${userDir}/posts`);
         console.log('Carpetas creadas');
         return userDir;
 
@@ -229,3 +285,6 @@ return `${idUnico}.${datosArch[datosArch.length-1]}`
 
 //Asi exportamos el archivo app, con las rutas
 module.exports = app;
+
+
+

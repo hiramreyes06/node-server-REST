@@ -2,6 +2,12 @@
 const jwt = require('jsonwebtoken');
 
 
+
+
+
+
+
+
 //Verificar token
 
 //Asi para crear un middleware
@@ -27,6 +33,8 @@ jwt.verify( token, process.env.SEED, (err, decoded) =>{
 
     //Asi guardamos lo que venga en el payload, y donde se usa 
     req.usuario= decoded.usuario;
+    
+    
 
     //Asi terminamos el proceso del middleware, OBLIGATORIO
     next();
@@ -36,6 +44,8 @@ jwt.verify( token, process.env.SEED, (err, decoded) =>{
 //console.log(token);
 
 };
+
+
 
 
 //Para verificar el token por medio del url y query

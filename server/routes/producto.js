@@ -10,15 +10,15 @@ const Producto = require('../models/producto');
 
 const app = express();
 
-console.log('nmssss');
+
 
 app.get('/productos/buscar/:termino', verificarToken, (req, res) =>{
 
-    let termino= req.params.termino;
+     
 
     //Asi creamos una expresion regular, para busqueda flexible
     //La i es para que ingore las mayusculas
-    let regex= new RegExp(termino, 'i');
+    let regex= new RegExp(req.params.termino, 'i');
 
 Producto.find({ nombre: regex })
 .populate('categoria', 'nombre')

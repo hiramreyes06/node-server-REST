@@ -1,6 +1,8 @@
 const mongoose= require('mongoose');
 
- const postsSchema = new mongoose.Schema({
+let Schema = mongoose.Schema;
+
+ const postsSchema = new Schema({
      fecha:{
          type:Date
      },
@@ -17,10 +19,14 @@ const mongoose= require('mongoose');
          type: mongoose.Schema.Types.ObjectId,
          ref:'Usuario',
          required:[true,'Datos del usuario necesarios']
+         //Que pedo raza
+        
      }
 
  });
 
+//Esto guarda y identifica el id generado por mongo,en el type:
+ //
 
 
 
