@@ -3,10 +3,12 @@
 const express = require('express');
 
 //Para encriptar strings
-const bcrypt = require('bcrypt');
+//const bcrypt = require('bcrypt');
 
 //Para bloquear una propiedad de los puts y no se actualice
 const _= require('underscore');
+
+const bcryptjs = require('bcryptjs');
 
 //El schema para mongoose
 const Usuario = require('../models/usuario');
@@ -147,7 +149,7 @@ nombre: body.nombre,
 email: body.email,
 img:'SINFOTOMEN',
 //Asi encriptamos la constraseña del usario, strings 
-password: bcrypt.hashSync(body.password, 10), 
+password: bcryptjs.hashSync(body.password, 10), 
 role: body.role
 });
 
@@ -183,7 +185,7 @@ app.post('/registro', (req, res) => {
     email: body.email,
     img:'SINFOTOMEN',
     //Asi encriptamos la constraseña del usario, strings 
-    password: bcrypt.hashSync(body.password, 10), 
+    password: bcryptjs.hashSync(body.password, 10), 
     role: body.role
     });
     

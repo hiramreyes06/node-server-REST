@@ -2,13 +2,15 @@
 const express = require('express');
 
 //Para encriptar strings
-const bcrypt = require('bcrypt');
+//const bcrypt = require('bcrypt');
 
 //Para crear y configurar json web tokens
 const jwt = require('jsonwebtoken');
 
 //El schema 
 const Usuario = require('../models/usuario');
+
+const bcrypt = require('bcryptjs');
 
 const app = express();
 
@@ -47,7 +49,7 @@ app.post('/login', (req, res) =>{
 
         //Asi encriptamos la contraseña obtenida del payload y la comparamos
         //Con una contra de la BD
-        if( bcrypt.compareSync( body.password , usuarioDB.password ) === false ){
+        if(! bcrypt.compareSync( body.password , usuarioDB.password )  ){
 
             return res.status(400).json({
                 ok:false,
