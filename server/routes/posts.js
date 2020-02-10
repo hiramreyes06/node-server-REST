@@ -12,15 +12,19 @@ app.post('/post',[verificarToken], (req,res)=>{
 
 let body=req.body;
 
+const imgs= body.imgs.split(',');
+
 let userId=req.usuario._id;
 
 let post= new Posts({
     fecha: body.fecha,
     texto: body.texto,
-    imgs:['eje1','eje2','eje3'],
+    imgs, 
     coords: body.coords,
     usuario: userId
 });
+
+console.log('Recibidas y arregladas', imgs);
 
 post.save( (err, post) =>{
 
@@ -49,6 +53,8 @@ app.get('/posts',[verificarToken], (req, res)=>{
     desde= desde *10;
 
     Posts.find({})
+    //Con el sort del fecha -1 ordenamos de forma descendiente los posts 
+    .sort({fecha: -1})
     .skip(desde)
     .limit(10)
     .populate('usuario','nombre email')
